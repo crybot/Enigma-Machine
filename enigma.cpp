@@ -1,3 +1,4 @@
+#include <algorithm>
 #include <iostream>
 #include <string>
 #include "enigma.h"
@@ -10,10 +11,13 @@ enigma::enigma(std::vector<rotor> rotors, rotor reflector) : rotors(rotors), ref
 
 std::string enigma::encrypt(std::string text)
 {
+  std::transform(text.begin(), text.end(), text.begin(),::toupper);
+  text.erase(std::remove_if(text.begin(), text.end(), ::isspace), text.end());
   for (auto& c : text)
   {
-    for (auto rotor : rotors)
+    for (auto &rotor : rotors)
     {
+      rotor.increment(1);
       c = rotor.encode(c);
     }
 
@@ -21,30 +25,16 @@ std::string enigma::encrypt(std::string text)
 
     for (auto it = rotors.rbegin(); it != rotors.rend(); ++it)
     {
-      c = (*it).encode(c);
+      c = (*it).mirror().encode(c);
     }
   }
 
   return text;
 }
 
-std::string enigma::decrypt(std::string text)
+void enigma::set_state(char first, char second, char third)
 {
-  for (auto& c : text)
-  {
-    for (auto rotor : mirrored_rotors)
-    {
-      c = rotor.encode(c);
-    }
-
-    c = reflector.encode(c);
-
-    for (auto it = mirrored_rotors.rbegin(); it != mirrored_rotors.rend(); ++it)
-    {
-      c = (*it).encode(c);
-    }
-  }
-
-  return text;
+  rotors[0].set_state(first);
+  rotors[1].set_state(second);
+  rotors[2].set_state(third);
 }
-

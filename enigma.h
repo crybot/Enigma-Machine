@@ -22,8 +22,7 @@ class enigma
 	rotor = rotor("EJMZALYXVBWFCRQUONTSPIKHGD"));
 
     std::string encrypt(std::string);
-    std::string decrypt(std::string);
-
+    void set_state(char, char, char);
 };
 
 

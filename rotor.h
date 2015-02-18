@@ -7,16 +7,18 @@ class rotor
 {
   private:
     std::string map;
+    char ringstellung;
     static const std::string ALPHABET;
 
     char shift(char, int);
 
   public:
     rotor(std::string map);
-    void increment(int);
-    std::string get_map();
     rotor mirror();
+    std::string get_map();
     char encode(char);
+    void increment(int);
+    void set_state(char);
 };
 
 #endif

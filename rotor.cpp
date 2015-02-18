@@ -2,7 +2,7 @@
 
 const std::string rotor::ALPHABET = "ABCDEFGHIJKLMNOPQRSTUVWXYZ";
 
-rotor::rotor(std::string map) : map(map)
+rotor::rotor(std::string map) : map(map), ringstellung('A')
 {
 
 }
@@ -32,9 +32,14 @@ char rotor::encode(char c)
 
 void rotor::increment(int k)
 {
-  for (auto &c: map) 
-    c = shift(c, k);
+  map = map.substr(map.size()-k, k) + map.substr(0, map.size()-k);
+  ringstellung = shift(ringstellung, k);
+}
 
+void rotor::set_state(char state)
+{
+  increment(map.size()-(ringstellung - 'A'));
+  ringstellung = state;
 }
 
 char rotor::shift(char c, int k)

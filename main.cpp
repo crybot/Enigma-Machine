@@ -3,11 +3,20 @@
 
 int main(int argc, char** argv)
 {
-  std::string message = argv[1]; 
+  enigma crypter;
+  enigma decrypter;
 
-  enigma machine;
+  while(true)
+  {
+    std::string clear;
+    std::string encrypted;
+    std::getline(std::cin, clear);
 
-  std::cout << machine.encrypt(message) << std::endl;
-  std::cout << machine.decrypt(machine.encrypt(message)) << std::endl;
+    encrypted = crypter.encrypt(clear);
+    std::cout <<  "encrypted message: " << encrypted << std::endl;
+    std::cout <<  "decrypted message: " << decrypter.encrypt(encrypted) << std::endl;
+
+  }
+
   return 0;
 }
